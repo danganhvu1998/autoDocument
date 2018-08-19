@@ -12,16 +12,16 @@
     <hr>
     @foreach($students as $student)
         <div class="row">
-            <div class="col-md-4">
-                <a href="students/view/{{$student->id}}" class="btn btn-primary">{{$student->name}}</a>
+            <div class="col-md-3 text-center">
+                <a href="students/view/{{$student->id}}">{{$student->name}}</a>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 text-center">
                 {{$student->note}}
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3 text-center">
                 <a href="students/edit/{{$student->id}}" class="btn btn-primary">Edit</a><br>
-                <a href="students/delete/{{$student->id}}" class="btn btn-dark">Delete</a>
+                <a href="students/delete/{{$student->id}}" class="btn btn-danger">Delete</a>
             </div>
         </div>
         <hr>
