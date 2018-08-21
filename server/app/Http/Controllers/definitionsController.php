@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\define;
 use App\assign;
+use App\assignDocument;
 
 class definitionsController extends Controller
 {   
@@ -33,12 +34,10 @@ class definitionsController extends Controller
     }
 
     // Deleting Definition
-    public function definitionsDeletingSite($id){
-        $definition = define::where("id", $id);
-        if(!$definition==null){
-            define::where("id", $id)->delete();
-            assign::where("define_id", $id)->delete();
-        }
+    public function definitionsDeleting($id){
+        define::where("id", $id)->delete();
+        assign::where("define_id", $id)->delete();
+        assignDocument::where("define_id", $id)->delete();
         return redirect("/definitions");
     }
 

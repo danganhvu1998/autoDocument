@@ -1,19 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+    <!--Title-->
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h1>Edit <strong style="color:brown"> {{$student->name}} </strong>Information </h1>
+        </div>
+        <div class="col-md-2">
+            <a href="/students" class="btn btn-primary">All Students</a>
         </div>
         <div class="col-md-2">
             <a href="/students/view/{{$student->id}}" class="btn btn-primary">Cancel Editing</a>
         </div>
     </div>
     <hr>
+    <!--Form-->
     {!! Form::open(['action' => 'studentsController@studentsEditing', 'method' => 'POST']) !!}
         <div class="form-group">
-            {{Form::label('title', "Student ID - Do not touch unless you know what it is!")}}
-            {{Form::text("id", $student->id, ['class'=>'form-control', 'placeholder'=>"Ctrl+Z to redo"])}}
+            {{Form::hidden("id", $student->id, ['class'=>'form-control', 'placeholder'=>"Ctrl+Z to redo"])}}
         </div>
         <div class="form-group">
             {{Form::label('title', "Student nickname - Require")}}
@@ -31,4 +35,12 @@
         @endforeach
         {{Form::submit('Save', ['class' => 'btn btn-dark'])}}
     {!! Form::close() !!}
+    <hr>
+    <!--Documents-->
+    @foreach($documents as $document)
+        <p><strong><a href="/students/document/edit/{{$document->id}}/{{$student->id}}">
+            {{$document->document_name}}
+        </a></strong></p>
+    @endforeach
+    <hr>
 @endsection

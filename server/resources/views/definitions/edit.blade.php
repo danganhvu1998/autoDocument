@@ -4,8 +4,7 @@
     <h1><strong>Edit Definition</strong></h1>
     {!! Form::open(['action' => 'definitionsController@definitionsEditing', 'method' => 'POST']) !!}
         <div class="form-group">
-            {{Form::label('title', "ID - Do not touch unless you understand")}}
-            {{Form::text('id', $definition->id, ['class'=>'form-control', 'placeholder'=>''])}}
+            {{Form::hidden('id', $definition->id, ['class'=>'form-control', 'placeholder'=>''])}}
         </div>
         <div class="form-group">
             {{Form::label('title', "Name - Requite")}}

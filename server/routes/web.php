@@ -30,6 +30,12 @@ Route::get('/students/edit/{id}', "studentsController@studentsEditingSite");
 
 Route::post('/students/edit', "studentsController@studentsEditing");
 
+Route::get('/students/document/edit/{documentID}/{studentID}', "studentsController@studentsDocumentEditingSite");
+
+Route::post('/students/document/edit', "studentsController@studentsDocumentEditing");
+
+Route::get('/students/document/view/{documentID}/{studentID}', "studentsController@studentsDocumentViewingSite");
+
 // Definitions Controller
 Route::get('/definitions', "definitionsController@definitionsSettingSite");
 
@@ -37,11 +43,26 @@ Route::get('/definitions/add', "definitionsController@definitionsAddingSite");
 
 Route::post('/definitions/add', "definitionsController@definitionsAdding");
 
-Route::get('/definitions/delete/{id}', "definitionsController@definitionsDeletingSite");
+Route::get('/definitions/delete/{id}', "definitionsController@definitionsDeleting");
 
 Route::get('/definitions/edit/{id}', "definitionsController@definitionsEditingSite");
 
 Route::post('/definitions/edit', "definitionsController@definitionsEditing");
+
+// Documents Controller
+Route::get('/documents', "documentsController@documentsSettingSite");
+
+Route::get('/documents/add', "documentsController@documentsAddingSite");
+
+Route::post('/documents/add', "documentsController@documentsAdding");
+
+Route::get('/documents/edit/{id}', "documentsController@documentsEditingSite");
+
+Route::post('/documents/edit', "documentsController@documentsEditing");
+
+Route::get('/documents/view/{id}', "documentsController@documentsViewingSite");
+
+Route::get('/documents/delete/{id}', "documentsController@documentsDeletingSite");
 
 // Auth
 Auth::routes();

@@ -50,12 +50,26 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
-                                    Definition<span class="caret"></span>
+                                    Document<span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/documents">
+                                        All Document
+                                    </a>
+                                    <a class="dropdown-item" href="/documents/add">
+                                        Add Document
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
+                                    Definitions<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/definitions">
-                                        All Definition
+                                        All Definitions
                                     </a>
                                     <a class="dropdown-item" href="/definitions/add">
                                         Add Definitons
@@ -64,12 +78,12 @@
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
-                                    Student<span class="caret"></span>
+                                    Students<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/students">
-                                        All Student
+                                        All Students
                                     </a>
                                     <a class="dropdown-item" href="/students/add">
                                         Add Student
