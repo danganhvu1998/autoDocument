@@ -3,14 +3,15 @@
 @section('content')
     <!--Title-->
     <div class="row">
-        <div class="col-md-8">
-            <h1>Edit <strong style="color:brown"> {{$student->name}} </strong>Information </h1>
+        <div class="col-md-7">
+            <h1>Edit <strong style="color:brown"> {{$student->name}} </strong></h1>
         </div>
-        <div class="col-md-2">
-            <a href="/students" class="btn btn-primary">All Students</a>
-        </div>
-        <div class="col-md-2">
-            <a href="/students/view/{{$student->id}}" class="btn btn-primary">Cancel Editing</a>
+        <div class="col-md-5">
+            <div class="btn-group">
+                <a href="/students" class="btn btn-primary">All Students</a>
+                <a href="/students/view/{{$student->id}}" class="btn btn-primary">View Student</a>
+                <a href="/students/note/view/{{$student->id}}" class="btn btn-primary">Student Note</a>
+            </div> 
         </div>
     </div>
     <hr>

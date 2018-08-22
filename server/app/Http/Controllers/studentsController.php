@@ -12,6 +12,7 @@ use App\assign;
 use App\document;
 use App\assignDocument;
 use App\assignStudentDocument;
+use App\studentNote;
 
 class studentsController extends Controller
 {
@@ -52,7 +53,7 @@ class studentsController extends Controller
     }
 
     // Student Deleting
-    public function studentsDeletingSite($id){
+    public function studentsDeleting($id){
         student::where("id", $id)->delete();
         assign::where('student_id', $id)->delete();
         return redirect("/students");
@@ -91,7 +92,47 @@ class studentsController extends Controller
         return redirect("/students/view/".$id);
     }
 
-    // Student Addon Function
+    // Student Checking Accuracy
+    public function studentsCheckingSite($id){
+        $student = student::where("id", $id)->first();
+        $errorInfos = $this->ErrorInfoTaker($id);
+        $data = array(
+            "errorInfos" => $errorInfos,
+            "student" => $student
+        );
+        //return $data;
+        return view("students.check")->with($data);
+    }
+
+
+    // Student Addon Functions
+    public function ErrorInfoTaker($studentID){
+        $assignStudentDocuments = DB::table("assign_student_documents")
+            ->where("student_id", $studentID)
+            ->join("assign_documents", "assign_student_documents.assign_document_id", "=", "assign_documents.id")
+            ->join("defines", "assign_documents.define_id", "=", "defines.id")
+            ->join("documents", "assign_documents.document_id", "=", "documents.id")
+            ->select("assign_student_documents.value", "documents.document_name", "defines.name", "defines.id")
+            ->get();
+        
+        $studentAssigns = assign::where("student_id", $studentID)
+            ->select("value", "define_id")
+            ->get();
+        $infoChecker = array();
+        foreach($studentAssigns as $studentAssign){
+            $infoChecker[$studentAssign->define_id] = $studentAssign->value;
+        }
+        $errorInfos = array();
+        foreach($assignStudentDocuments as $assignStudentDocument){
+            if($assignStudentDocument->value!=$infoChecker[$assignStudentDocument->id]){
+                $error = $assignStudentDocument;
+                $error->origin_value=$infoChecker[$assignStudentDocument->id];
+                array_push($errorInfos, $error);
+            }
+        }
+        return $errorInfos;
+    }
+
     public function studentInfoTaker($id){
         // Fill non-existed info with null
         // Fix later with less request to MysqlServer
@@ -134,10 +175,10 @@ class studentsController extends Controller
     //                                                                                    \\
     //************************ START STUDENT - DOCUMENT FUNCTION *************************\\
 
-    //Student - Document Editing
+    // Student - Document Editing
     public function studentsDocumentEditingSite($documentID, $studentID){
         $data = $this->studentDocumentInfoTaker($documentID, $studentID);
-        return view("studentDocument.edit")->with($data);
+        return view("studentDocuments.edit")->with($data);
     }
 
     public function studentsDocumentEditing(request $request){
@@ -152,10 +193,10 @@ class studentsController extends Controller
     // Student - Document Viewing
     public function studentsDocumentViewingSite($documentID, $studentID){
         $data = $this->studentDocumentInfoTaker($documentID, $studentID);
-        return view("studentDocument.view")->with($data);
+        return view("studentDocuments.view")->with($data);
     }
 
-    // Student - Document Addon Function
+    // Student - Document Addon Functions
     public function studentDocumentInfoTaker($documentID, $studentID){
         $student = student::where("id", $studentID)->first();
         $document = document::where("id", $documentID)->first();
@@ -188,6 +229,74 @@ class studentsController extends Controller
         return $data;
     }
 
+    //************************** END STUDENT - DOCUMENT FUNCTION **************************\\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //*************************** START STUDENT - NOTE FUNCTION ***************************\\
+
+    // Student - Note Viewing
+    public function studentsNoteViewingSite($id){
+        $data = $this->studentsNoteInfoTaker($id);
+        return view("studentNotes.view")->with($data);
+    }
+    
+    // Student - Note Editing
+    public function studentsNoteEditingSite($id){
+        $data = $this->studentsNoteInfoTaker($id);
+        return view("studentNotes.edit")->with($data);
+    }
+
+    public function studentsNoteEditing(request $request){
+        $studentNotesID = $this->takeID(request()->getContent());
+        foreach($studentNotesID as $studentNoteID){
+            studentNote::where("id", $studentNoteID)
+                ->update([
+                    "note_value" => $request->$studentNoteID
+                ]);
+        }
+        return redirect("/students/note/view/".$request->student_id);
+    }
+
+    // Student - Note Adding
+    public function studentsNoteAddingSite($id){
+        $student = student::where("id", $id)->first();
+        return view("studentNotes.add")->with("student", $student);
+    }
+
+    public function studentsNoteAdding(request $request){
+        $studentNote = new studentNote;
+        $studentNote->note_name = $request->note_name;
+        $studentNote->student_id = $request->student_id;
+        $studentNote->note_value = "";
+        $studentNote->save();
+        return redirect("/students/note/edit/".$request->student_id);
+    }
+
+    // Student - Note Deleting
+    public function studentsNoteDeleting($studentID, $noteID){
+        studentNote::where("id", $noteID)->delete();
+        return redirect("/students/note/edit/".$studentID);
+    }
+    
+    // Student - Note Addon Functions
+    public function studentsNoteInfoTaker($id){
+        $student = student::where("id", $id)->first();
+        $studentNotes = studentNote::where("student_id", $id)->get();
+        $data = array(
+            "student" => $student,
+            "studentNotes" => $studentNotes
+        );
+        return $data;
+    }
+
+    //**************************** END STUDENT - NOTE FUNCTION ****************************\\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //*********************************** ADDON FUNCTION **********************************\\
     public function takeID($str){
         $str = "&".$str;
         $ans = array();

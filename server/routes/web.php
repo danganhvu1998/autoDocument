@@ -22,7 +22,7 @@ Route::get('/students/add', "studentsController@studentsAddingSite");
 
 Route::post('/students/add', "studentsController@studentsAdding");
 
-Route::get('/students/delete/{id}', "studentsController@studentsDeletingSite");
+Route::get('/students/delete/{id}', "studentsController@studentsDeleting");
 
 Route::get('/students/view/{id}', "studentsController@studentsViewingSite");
 
@@ -30,12 +30,33 @@ Route::get('/students/edit/{id}', "studentsController@studentsEditingSite");
 
 Route::post('/students/edit', "studentsController@studentsEditing");
 
+Route::get('/students/check/{id}', "studentsController@studentsCheckingSite");
+
+// Student -- Note
+Route::get('/students/note/view/{id}', "studentsController@studentsNoteViewingSite");
+
+Route::get('/students/note/edit/{id}', "studentsController@studentsNoteEditingSite");
+
+Route::post('/students/note/edit', "studentsController@studentsNoteEditing");
+
+Route::get('/students/note/add/{id}', "studentsController@studentsNoteAddingSite");
+
+Route::post('/students/note/add', "studentsController@studentsNoteAdding");
+
+Route::get('/students/note/delete/{studentID}/{noteID}', "studentsController@studentsNoteDeleting");
+
+// Student -- Document
 Route::get('/students/document/edit/{documentID}/{studentID}', "studentsController@studentsDocumentEditingSite");
 
 Route::post('/students/document/edit', "studentsController@studentsDocumentEditing");
 
 Route::get('/students/document/view/{documentID}/{studentID}', "studentsController@studentsDocumentViewingSite");
 
+// End Students Controller
+//
+//
+//
+//
 // Definitions Controller
 Route::get('/definitions', "definitionsController@definitionsSettingSite");
 
@@ -49,6 +70,11 @@ Route::get('/definitions/edit/{id}', "definitionsController@definitionsEditingSi
 
 Route::post('/definitions/edit', "definitionsController@definitionsEditing");
 
+// End Definitions Controller
+//
+//
+//
+//
 // Documents Controller
 Route::get('/documents', "documentsController@documentsSettingSite");
 
@@ -62,7 +88,7 @@ Route::post('/documents/edit', "documentsController@documentsEditing");
 
 Route::get('/documents/view/{id}', "documentsController@documentsViewingSite");
 
-Route::get('/documents/delete/{id}', "documentsController@documentsDeletingSite");
+Route::get('/documents/delete/{id}', "documentsController@documentsDeleting");
 
 // Auth
 Auth::routes();

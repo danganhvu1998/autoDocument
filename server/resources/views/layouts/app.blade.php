@@ -50,12 +50,12 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
-                                    Document<span class="caret"></span>
+                                    Documents<span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/documents">
-                                        All Document
+                                        All Documents
                                     </a>
                                     <a class="dropdown-item" href="/documents/add">
                                         Add Document
@@ -72,7 +72,7 @@
                                         All Definitions
                                     </a>
                                     <a class="dropdown-item" href="/definitions/add">
-                                        Add Definitons
+                                        Add Definiton
                                     </a>
                                 </div>
                             </li>

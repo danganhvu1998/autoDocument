@@ -58,7 +58,7 @@ class documentsController extends Controller
     }
 
     // Deleting
-    public function documentsDeletingSite($id){
+    public function documentsDeleting($id){
         assignDocument::where("document_id", $id)->delete();
         document::where("id", $id)->delete();
         return redirect("/documents");

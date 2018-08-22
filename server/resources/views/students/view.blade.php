@@ -2,14 +2,16 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <h1>View <strong style="color:brown"> {{$student->name}} </strong>Information </h1>
         </div>
-        <div class="col-md-2">
-            <a href="/students" class="btn btn-primary">All Students</a>
-        </div>
-        <div class="col-md-2">
-            <a href="/students/edit/{{$student->id}}" class="btn btn-primary">Edit Student</a>
+        <div class="col-md-5">
+            <div class="btn-group">
+                <a href="/students" class="btn btn-primary">All Students</a>
+                <a href="/students/edit/{{$student->id}}" class="btn btn-primary">Edit Student</a>
+                <a href="/students/note/view/{{$student->id}}" class="btn btn-primary">Student Note</a>
+                <a href="/students/check/{{$student->id}}" class="btn btn-primary">Check Student</a>
+            </div> 
         </div>
     </div>
     <p><strong>Note:</strong> {{$student->note}}</p>

@@ -3,7 +3,7 @@
 @section('content')
     <!--Title-->
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-7">
             <h1>
                 Edit 
                 <strong style="color:brown"> 
@@ -11,11 +11,12 @@
                 </strong>
             </h1>
         </div>
-        <div class="col-md-2">
-            <a href="/students/view/{{$student->id}}" class="btn btn-primary">View This Student</a>
-        </div>
-        <div class="col-md-2">
-            <a href="/students/document/edit/{{$document->id}}/{{$student->id}}" class="btn btn-primary">Edit</a>
+        <div class="col-md-5">
+            <div class="btn-group">
+                <a href="/students" class="btn btn-primary">All Students</a>
+                <a href="/students/view/{{$student->id}}" class="btn btn-primary">View Student</a>
+                <a href="/students/document/edit/{{$document->id}}/{{$student->id}}" class="btn btn-primary">Edit</a>
+            </div> 
         </div>
     </div>
     <hr>
@@ -31,6 +32,5 @@
         </div>
         <hr>
     @endforeach
-    <hr>
 
 @endsection
