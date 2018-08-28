@@ -11,7 +11,7 @@ class definitionsController extends Controller
 {   
     // Definitions Setting Page
     public function definitionsSettingSite(){
-        $definitions = define::all();
+        $definitions = define::orderBy("position")->get();
         return view("definitions.setting")->with("definitions", $definitions);
     }
 
@@ -27,6 +27,7 @@ class definitionsController extends Controller
             $define->define1 = $request->define1;
             $define->define2 = $request->define2;
             if( $define->save() ) {
+                $this->definitionsFullfillPosition();
                 return redirect("/definitions");
             }
         }  
@@ -64,6 +65,69 @@ class definitionsController extends Controller
             }  
         }
         return redirect("/definitions");
+    }
+
+    // Change Position
+    public function definitionsChangePositionUp($position){
+        $defines = define::where("position", "<=", $position)
+            ->orderBy('position','desc')
+            ->limit(2)
+            ->get();
+        if(count($defines) == 2){
+            define::where('id', $defines[0]->id)
+            ->update([
+                'position' => $defines[1]->position
+            ]);
+
+            define::where('id', $defines[1]->id)
+            ->update([
+                'position' => $defines[0]->position
+            ]);
+        }
+        return redirect("/definitions");
+    }
+
+    public function definitionsChangePositionDown($position){
+        $defines = define::where("position", ">=", $position)
+            ->orderBy('position')
+            ->limit(2)
+            ->get();
+        if(count($defines) == 2){
+            define::where('id', $defines[0]->id)
+            ->update([
+                'position' => $defines[1]->position
+            ]);
+
+            define::where('id', $defines[1]->id)
+            ->update([
+                'position' => $defines[0]->position
+            ]);
+        }
+        return redirect("/definitions");
+    }
+
+    public function definitionsFullfillPosition(){
+        $defines = define::whereNull('position')->get();
+        foreach($defines as $define){
+            define::where('id', $define->id)
+            ->update([
+                'position' => $define->id
+            ]);
+        }
+        
+        return $defines;
+    }
+
+    public function definitionsResetPosition(){
+        $defines = define::all();
+        foreach($defines as $define){
+            define::where('id', $define->id)
+            ->update([
+                'position' => $define->id
+            ]);
+        }
+        
+        return $defines;
     }
 
 }

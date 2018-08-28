@@ -156,6 +156,7 @@ class studentsController extends Controller
             ->where("student_id", $id)
             ->join("defines", "assigns.define_id", "=", "defines.id")
             ->select("assigns.define_id", "assigns.value", "defines.define1", "defines.name")
+            ->orderBy("position")
             ->get();
         
         // Take all documents

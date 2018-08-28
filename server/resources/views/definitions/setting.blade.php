@@ -2,12 +2,9 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <h1><strong> Definitions </strong></h1>
         </div>
-        <div class="col-md-2">
-            <a href="#" class="btn btn-primary">Change Position</a>
-        </div>    
         <div class="col-md-2">
             <a href="/definitions/add" class="btn btn-primary">Add Definition</a>
         </div>
@@ -24,9 +21,16 @@
                 {{$definition->define2}}
             </div>
             <div class="col-md-3">
-                <a href="definitions/delete/{{$definition->id}}" class="btn btn-dark">Delete</a>
-                <a href="definitions/edit/{{$definition->id}}" class="btn btn-primary">Edit</a>
+                <div class="btn-group">
+                    <a href="/definitions/changePos/up/{{$definition->position}}" class="btn btn-success"> UP </a>
+                    <a href="/definitions/changePos/down/{{$definition->position}}" class="btn btn-info">DOWN</a>
+                </div>
+                <div class="btn-group">
+                    <a href="/definitions/delete/{{$definition->id}}" class="btn btn-danger">Delete</a>
+                    <a href="/definitions/edit/{{$definition->id}}" class="btn btn-primary">Edit</a>
+                </div>
             </div>
+            
         </div>
         <hr>
     @endforeach

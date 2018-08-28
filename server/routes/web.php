@@ -70,6 +70,12 @@ Route::get('/definitions/edit/{id}', "definitionsController@definitionsEditingSi
 
 Route::post('/definitions/edit', "definitionsController@definitionsEditing");
 
+Route::get('definitions/changePos/up/{position}', "definitionsController@definitionsChangePositionUp");
+
+Route::get('definitions/changePos/down/{position}', 'definitionsController@definitionsChangePositionDown');
+
+Route::get('definitions/changePos/reset', 'definitionsController@definitionsResetPosition');
+
 // End Definitions Controller
 //
 //
