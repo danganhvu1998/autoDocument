@@ -96,6 +96,18 @@ Route::get('/documents/view/{id}', "documentsController@documentsViewingSite");
 
 Route::get('/documents/delete/{id}', "documentsController@documentsDeleting");
 
+// End Documents Controller
+//
+//
+//
+//
+// Files Controller
+
+Route::get('files', 'filesController@filesViewingSite');
+
+Route::get('files/delete/{id}', 'filesController@filesDeleting');
+
+Route::post('files/add', 'filesController@filesAdding');
 // Auth
 Auth::routes();
 

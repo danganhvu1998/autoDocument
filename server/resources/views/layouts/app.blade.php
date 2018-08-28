@@ -50,6 +50,20 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
+                                    Files<span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/files">
+                                        All Files
+                                    </a>
+                                    <a class="dropdown-item" href="/definitions/add">
+                                        All Groups of File
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" >
                                     Documents<span class="caret"></span>
                                 </a>
 

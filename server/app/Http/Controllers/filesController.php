@@ -3,75 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\files;
+use App\file;
 use Illuminate\Support\Facades\Storage;
 use DB;
 
 
 class filesController extends Controller
 {   
-    public function showStore($page){
-        if($page<1) {
-            return redirect('files/store/1');
-        }
-        $files = files::orderBy('updated_at','desc')
-			->skip(($page-1)*20)
-			->take(20)
+    public function filesViewingSite(){
+        $files = file::orderBy('updated_at','desc')
             ->get();
-        if(count($files)==0 and $page!=1){
-            return redirect('files/store/'.strval(intval((files::count()-1)/20+1)));
-        }
         $data = array(
             'files' => $files,
-            'pageNum' => $page
         );
-        return view('fileCtrl.store')->with($data);
+        return view('files.view')->with($data);
     }
 
-    public function store(request $request){
+    public function filesAdding(request $request){
         $this->validate($request, [
             'file' => 'max:1999'
         ]);
 
         if($request->hasFile('file')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('file')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             // Get just ext
             $extension = $request->file('file')->getClientOriginalExtension();
+            if($extension!="docx" && $extension!="xlsx") return redirect('files');
             // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-            // Upload Image
+            $fileNameToStore = $request->file('file')->getClientOriginalName();
+            // Upload File
             $path = $request->file('file')->storeAs('public/file', $fileNameToStore);
+
+            $file = new file;
+            $file->file_url = $fileNameToStore;
+            $file->save();
         } else {
-            return redirect('files/store/1');
+            return redirect('files');
         }
-        $file = new files;
-        $file->file_url = $fileNameToStore;
-        $file->save();
-        return redirect('files/store/1');
+        
+        return redirect('files');
     }
 
-    public function delete($id){
-        $file = files::where('id', $id)->first();
+    public function filesDeleting($id){
+        $file = file::where('id', $id)->first();
         if($file == null){
-            return redirect('files/store/1');
+            return redirect('files');
         }
         Storage::delete('public/file/'.$file->file_url);
-        files::where('id', $id)->delete();
-        return redirect('files/store/1');
-    }
-
-    public function banner(request $request){
-        $this->validate($request, [
-            'file' => 'max:1999'
-        ]);
-        if($request->hasFile('file')){
-            $path = $request->file('file')->storeAs('public/file', "banner.jpg");
-        } else {
-            return redirect('home');
-        }
-        return redirect('home');
+        file::where('id', $id)->delete();
+        return redirect('files');
     }
 }
