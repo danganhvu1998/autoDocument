@@ -102,12 +102,32 @@ Route::get('/documents/delete/{id}', "documentsController@documentsDeleting");
 //
 //
 // Files Controller
-
 Route::get('files', 'filesController@filesViewingSite');
 
 Route::get('files/delete/{id}', 'filesController@filesDeleting');
 
 Route::post('files/add', 'filesController@filesAdding');
+
+// End Files Controller
+//
+//
+//
+//
+// Group Files Controller
+Route::get('/groupFiles', "groupFilesController@groupFilesSettingSite");
+
+Route::get('/groupFiles/add', "groupFilesController@groupFilesAddingSite");
+
+Route::post('/groupFiles/add', "groupFilesController@groupFilesAdding");
+
+Route::get('/groupFiles/edit/{id}', "groupFilesController@groupFilesEditingSite");
+
+Route::post('/groupFiles/edit', "groupFilesController@groupFilesEditing");
+
+Route::get('/groupFiles/view/{id}', "groupFilesController@groupFilesViewingSite");
+
+Route::get('/groupFiles/delete/{id}', "groupFilesController@groupFilesDeleting");
+
 // Auth
 Auth::routes();
 

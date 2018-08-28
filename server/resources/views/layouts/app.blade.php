@@ -57,7 +57,7 @@
                                     <a class="dropdown-item" href="/files">
                                         All Files
                                     </a>
-                                    <a class="dropdown-item" href="/definitions/add">
+                                    <a class="dropdown-item" href="/groupFiles">
                                         All Groups of File
                                     </a>
                                 </div>
