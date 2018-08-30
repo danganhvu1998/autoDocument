@@ -17,7 +17,9 @@
         @foreach($errorInfos as $errorInfo)
             <div class="row">
                 <div class="col-md-5">
-                    {{$errorInfo->document_name}} -> {{$errorInfo->name}}
+                    <strong class="text-danger">
+                        {{$errorInfo->document_name}} -> {{$errorInfo->name}}
+                    </strong>
                 </div>
                 <div class="col-md-7">
                     "<strong class="text-danger">{{$errorInfo->value}}</strong>"
