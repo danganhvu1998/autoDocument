@@ -15,10 +15,11 @@
                 {{$definition->name}}
             </div>
             <div class="col-md-3">
-                {{$definition->define1}}
+                [[[{{$definition->define1}}]]]
+
             </div>
             <div class="col-md-3">
-                {{$definition->define2}}
+                [[[{{$definition->define2}}]]]
             </div>
             <div class="col-md-3">
                 <div class="btn-group">

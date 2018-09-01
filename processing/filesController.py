@@ -15,12 +15,16 @@ def filesPrepare(folderName, files):
 
 def makeCompress(folderName):
     cmd = "cd temp/ && zip -r '"+folderName+".zip' '"+folderName+"/'"
-    #print(cmd);
     os.system(cmd)
-    return 0
-
-def filesRemove(folderName):
-    return 0
+    return 1
 
 def compessedFileMove(folderName):
-    return 0
+    cmd = "mv 'temp/"+folderName+".zip' '../server/public/storage/file/'"
+    print(cmd)
+    os.system(cmd)
+    return 1
+
+def filesRemove(folderName):
+    cmd = "rm -r temp/"+folderName
+    os.system(cmd)
+    return 1
