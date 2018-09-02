@@ -251,6 +251,7 @@ class studentsController extends Controller
         }
         $student = student::where("id", $id)->first();
         $requests = DB::table("request_auto_documents")
+            ->orderBy("id", "desc")
             ->where("student_id", $id)
             ->join("group_files", "request_auto_documents.group_file_id", "=", "group_files.id")
             ->select("request_auto_documents.*", "group_files.name")
