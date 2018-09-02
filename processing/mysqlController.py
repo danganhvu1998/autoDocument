@@ -14,15 +14,13 @@ def loginInfoTaker():
     return result
 
 def requestTaker(mydb):
-    cmd = """
-        SELECT request_auto_documents.id, request_auto_documents.student_id, request_auto_documents.group_file_id, students.name, group_files.name 
+    cmd = """SELECT request_auto_documents.id, request_auto_documents.student_id, request_auto_documents.group_file_id, students.name, group_files.name 
         FROM request_auto_documents  
         INNER JOIN students 
             ON request_auto_documents.student_id=students.id 
         INNER JOIN group_files 
             ON request_auto_documents.group_file_id=group_files.id 
-        WHERE request_auto_documents.status=0
-    """
+        WHERE request_auto_documents.status=0"""
     mycursor = mydb.cursor()
     mycursor.execute(cmd)
     return mycursor.fetchall()
@@ -73,3 +71,19 @@ def MAIN():
         if( not result["groupFiles"].get(request[2]) ): 
             result["groupFiles"][request[2]] = groupFileInfoTaker(mydb, request[2])
     return result
+
+def updateResult(id, result):
+    response = loginInfoTaker()
+    if(response["result"]==0): return 0
+    mydb = mysql.connector.connect(
+        host = response["loginInfo"][0],
+        user = response["loginInfo"][1],
+        passwd = response["loginInfo"][2],
+        database = response["loginInfo"][3]
+    )
+    cmd = ("UPDATE request_auto_documents SET status = %d WHERE id = %d" % (result, id))
+    print(cmd, type(cmd))
+    mycursor = mydb.cursor()
+    mycursor.execute(cmd)
+    mydb.commit()
+    return 0

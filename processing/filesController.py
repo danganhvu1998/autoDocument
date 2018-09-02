@@ -1,4 +1,5 @@
 import os
+import time
 
 def filesPrepare(folderName, files):
     path = "../server/public/storage/file/"
@@ -28,3 +29,17 @@ def filesRemove(folderName):
     cmd = "rm -r temp/"+folderName
     os.system(cmd)
     return 1
+
+def cleaner():
+    cmd = "rm -r temp/"
+    os.system(cmd)
+    return 1
+
+def deleteOldFile():
+    oneWeekTime = 3600*24*8
+    currTime = time.time()
+    deleteFiles = os.listdir("../server/public/storage/file/")
+    for deleteFile in deleteFiles:
+        if(deleteFile.endswith(".zip")):
+            existedTime  = currTime - os.stat("../server/public/storage/file/"+deleteFile).st_atime
+            if(existedTime>oneWeekTime): os.remove("../server/public/storage/file/"+deleteFile)

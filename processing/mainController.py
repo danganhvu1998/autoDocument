@@ -1,6 +1,7 @@
 import mysqlController as mysqlCtrl
 import filesController as filesCtrl
 import editFileController as editFileCtrl
+from time import ctime
 
 #TAKE CLIENT REQUEST 
 clientRequest = mysqlCtrl.MAIN()
@@ -56,15 +57,23 @@ def requestProcessor(request):
     return "Success!"
     
 
-#AUTODOCUMENT
+#AUTODOCUMENT + LOG
 for request in requests:
-    requestLog = "request_id: "+str(request[0])+", "
+    requestLog = ctime() + " request_id: "+str(request[0])+", "
     requestLog += "student_id: "+str(request[1])+", "
     requestLog += "group_file_id: "+str(request[2])+", "
     requestLog += "student_name: "+str(request[3])+", "
     requestLog += "group_file_name: "+str(request[4])+", Result: "
-    print(requestProcessor(request))
+    result = requestLog + requestProcessor(request)
+    logFile = open("log.txt", "a")
+    logFile.write(result+"\n")
+    logFile.close()
+    filesCtrl.cleaner()
+    #UPDATE DATABASE
+    if(result.endswith("Result: Success!")):
+        mysqlCtrl.updateResult(request[0], 1) #SUCCESS
+    else:
+        mysqlCtrl.updateResult(request[0], -1) #ERROR
 
 #DELETE TOO OLD FILE
-
-#UPDATE DATABASE
+filesCtrl.deleteOldFile()
