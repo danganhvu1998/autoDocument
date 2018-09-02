@@ -8,7 +8,11 @@ use App\assignDocument;
 use App\define;
 
 class documentsController extends Controller
-{
+{   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     // Setting - List all
     public function documentsSettingSite(){
         $documents = document::all();

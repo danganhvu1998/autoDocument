@@ -9,6 +9,11 @@ use App\assignDocument;
 
 class definitionsController extends Controller
 {   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // Definitions Setting Page
     public function definitionsSettingSite(){
         $definitions = define::orderBy("position")->get();

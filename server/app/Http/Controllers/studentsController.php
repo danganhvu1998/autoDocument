@@ -13,9 +13,16 @@ use App\document;
 use App\assignDocument;
 use App\assignStudentDocument;
 use App\studentNote;
+use App\requestAutoDocument;
+use App\groupFile;
 
 class studentsController extends Controller
-{
+{   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // Student Setting
     public function studentsShowingSite(){
         $students = student::all();
@@ -231,6 +238,50 @@ class studentsController extends Controller
     }
 
     //************************** END STUDENT - DOCUMENT FUNCTION **************************\\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //                                                                                     \\
+    //************************** START STUDENT - REQUEST FUNCTION *************************\\
+
+    // view + request site
+    public function studentsRequestSite($id){
+        if($this->ErrorInfoTaker($id)){
+            return redirect("/students/check/".$id);
+        }
+        $student = student::where("id", $id)->first();
+        $requests = DB::table("request_auto_documents")
+            ->where("student_id", $id)
+            ->join("group_files", "request_auto_documents.group_file_id", "=", "group_files.id")
+            ->select("request_auto_documents.*", "group_files.name")
+            ->limit(15)
+            ->get();
+        $groupFiles = groupFile::select("id", "name")->get();
+        foreach($requests as $request){
+            $request->url = $request->name."___".$student->name.".zip";
+            $request->url = str_replace(" ", "_", $request->url);
+        }
+        $data = array(
+            "student" => $student,
+            "requests" => $requests,
+            "groupFiles" => $groupFiles
+        );
+        return view("students.request")->with($data);
+    }
+
+    public function studentsRequest(request $request){
+        $groupFilesID = $this->takeID(request()->getContent());
+        foreach( $groupFilesID as $groupFileID){
+            $requestAutoDocument = new requestAutoDocument;
+            $requestAutoDocument->student_id = $request->id;
+            $requestAutoDocument->group_file_id = $groupFileID;
+            $requestAutoDocument->status = 0;
+            $requestAutoDocument->save();
+        }
+        return redirect("/students/request/".$request->id);
+    }
+
+    //*************************** END STUDENT - REQUEST FUNCTION **************************\\
     //                                                                                     \\
     //                                                                                     \\
     //                                                                                     \\

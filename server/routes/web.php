@@ -52,6 +52,11 @@ Route::post('/students/document/edit', "studentsController@studentsDocumentEditi
 
 Route::get('/students/document/view/{documentID}/{studentID}', "studentsController@studentsDocumentViewingSite");
 
+// Student -- Request Auto Document
+Route::get('/students/request/{id}', "studentsController@studentsRequestSite");
+
+Route::post('/students/request', "studentsController@studentsRequest");
+
 // End Students Controller
 //
 //

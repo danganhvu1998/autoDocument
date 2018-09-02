@@ -8,7 +8,12 @@ use App\assignGroupFile;
 use App\file;
 
 class groupFilesController extends Controller
-{
+{   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     // Setting - List all
     public function groupFilesSettingSite(){
         $groupFiles = groupFile::all();
