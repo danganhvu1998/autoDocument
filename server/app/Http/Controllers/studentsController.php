@@ -103,12 +103,10 @@ class studentsController extends Controller
     public function studentsCheckingSite($id){
         $student = student::where("id", $id)->first();
         $errorInfos = $this->ErrorInfoTaker($id);
-        return $errorInfos;
         $data = array(
             "errorInfos" => $errorInfos,
             "student" => $student
         );
-        //return $data;
         return view("students.check")->with($data);
     }
 
@@ -120,7 +118,7 @@ class studentsController extends Controller
             ->join("assign_documents", "assign_student_documents.assign_document_id", "=", "assign_documents.id")
             ->join("defines", "assign_documents.define_id", "=", "defines.id")
             ->join("documents", "assign_documents.document_id", "=", "documents.id")
-            ->select("assign_student_documents.value", "documents.document_name", "documents.id as document_id", "defines.name", "defines.id")
+            ->select("assign_student_documents.value", "documents.document_name", "documents.id as document_id", "defines.name", "defines.id as define_id")
             ->get();
         
         $studentAssigns = assign::where("student_id", $studentID)
@@ -132,9 +130,9 @@ class studentsController extends Controller
         }
         $errorInfos = array();
         foreach($assignStudentDocuments as $assignStudentDocument){
-            if($assignStudentDocument->value!=$infoChecker[$assignStudentDocument->id]){
+            if($assignStudentDocument->value!=$infoChecker[$assignStudentDocument->define_id]){
                 $error = $assignStudentDocument;
-                $error->origin_value=$infoChecker[$assignStudentDocument->id];
+                $error->origin_value=$infoChecker[$assignStudentDocument->define_id];
                 array_push($errorInfos, $error);
             }
         }
@@ -199,6 +197,7 @@ class studentsController extends Controller
     // Student - Document Editing
     public function studentsDocumentEditingSite($documentID, $studentID){
         $data = $this->studentDocumentInfoTaker($documentID, $studentID);
+        #return $data;
         return view("studentDocuments.edit")->with($data);
     }
 
@@ -241,11 +240,20 @@ class studentsController extends Controller
             ->whereIn("assign_document_id", $assignDocumentsID)
             ->join("assign_documents", "assign_student_documents.assign_document_id", "=", "assign_documents.id")
             ->join("defines", "assign_documents.define_id", "=", "defines.id")
-            ->select("assign_student_documents.*", "defines.name")
+            ->select("assign_student_documents.*", "defines.name", "defines.id as define_id")
             ->get();
+        //error taker!
+        $errors = array();
+        $errorInfos = $this->ErrorInfoTaker($studentID);
+        foreach($errorInfos as $errorInfo){
+            if($errorInfo->document_id != $documentID) continue;
+            $errors[$errorInfo->define_id] = $errorInfo->origin_value;
+        }
         //return $assignStudentDocuments;
         $data = array("document"=>$document, 
             "student"=>$student, 
+            "errorInfos"=>$errorInfos,
+            "errors"=>$errors,
             "assignStudentDocuments"=>$assignStudentDocuments);
         return $data;
     }

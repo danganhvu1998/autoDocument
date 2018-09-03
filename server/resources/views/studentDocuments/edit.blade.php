@@ -26,7 +26,12 @@
         {{Form::hidden("document_id", $document->id, ['class'=>'form-control'])}}
         @foreach($assignStudentDocuments as $assignStudentDocument)
             <div class="form-group">
-                {{Form::label('title', $assignStudentDocument->name)}}
+                @if (isset($errors[$assignStudentDocument->define_id]))
+                    <strong class="text-danger">{{$assignStudentDocument->name}} <-#-> "{{$errors[$assignStudentDocument->define_id]}}"</strong>
+                @else
+                    {{$assignStudentDocument->name}}
+                @endif
+                    
                 {{Form::text($assignStudentDocument->id, $assignStudentDocument->value, ['class'=>'form-control'])}}
             </div>
         @endforeach

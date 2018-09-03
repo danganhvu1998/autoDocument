@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-7">
             <h1>
-                Edit 
+                View 
                 <strong style="color:brown"> 
                     {{$student->name}}-{{$document->document_name}} 
                 </strong>
@@ -23,10 +23,14 @@
     <!--Form-->
     @foreach($assignStudentDocuments as $assignStudentDocument)
         <div class="row">
-            <div class="col-md-4">
-                <strong>{{$assignStudentDocument->name}}:</strong>
+            <div class="col-md-7">
+                @if (isset($errors[$assignStudentDocument->define_id]))
+                    <strong class="text-danger">{{$assignStudentDocument->name}} <-#-> "{{$errors[$assignStudentDocument->define_id]}}"</strong>
+                @else
+                    {{$assignStudentDocument->name}}
+                @endif
             </div>
-            <div class="col-md-8">
+            <div class="col-md-5">
                 {{$assignStudentDocument->value}}
             </div>
         </div>
