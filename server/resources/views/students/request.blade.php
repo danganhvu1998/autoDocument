@@ -11,7 +11,7 @@
                 @else
                     @if ($request->status == 1)
                         <strong>
-                            <a href='http://kyatod.science:8000/storage/file/{{$request->url}}' class="text-success">{{$request->name}} -- SUCCESS</a>
+                            <a href='http://localhost:8000/storage/file/{{$request->url}}' class="text-success">{{$request->name}} -- SUCCESS</a>
                         </strong>
                     @else
                         <strong class="text-danger">{{$request->name}} -- ERROR(try to request again, if still got error, inform admin)</strong>

@@ -39,8 +39,13 @@
     <hr>
     <!--Documents-->
     @foreach($documents as $document)
-        <p><strong><a href="/students/document/edit/{{$document->id}}/{{$student->id}}">
-            {{$document->document_name}}
+        <p><strong>
+        @if ($errorCounts[$document->id])
+            <a href="/students/document/edit/{{$document->id}}/{{$student->id}}" class="text-danger">
+        @else
+            <a href="/students/document/edit/{{$document->id}}/{{$student->id}}">
+        @endif
+            {{$document->document_name}} --> Has {{$errorCounts[$document->id]}} error[s]
         </a></strong></p>
     @endforeach
     <hr>

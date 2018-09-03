@@ -15,13 +15,14 @@
             <div class="col-md-3 text-center">
                 <a href="students/view/{{$student->id}}">{{$student->name}}</a>
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-5 text-center">
                 {{$student->note}}
             </div>
 
-            <div class="col-md-3 text-center">
-                <a href="students/edit/{{$student->id}}" class="btn btn-primary">Edit</a><br>
-                <a href="students/delete/{{$student->id}}" class="btn btn-danger">Delete</a>
+            <div class="col-md-4 text-center btn-group">
+                <a href="students/edit/{{$student->id}}" class="btn btn-primary">Edit</a>
+                <a href="students/request/{{$student->id}}" class="btn btn-success">Request</a>
+                <!--<a href="students/delete/{{$student->id}}" class="btn btn-danger">Delete</a>-->
             </div>
         </div>
         <hr>

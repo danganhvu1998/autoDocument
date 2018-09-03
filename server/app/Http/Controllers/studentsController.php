@@ -103,6 +103,7 @@ class studentsController extends Controller
     public function studentsCheckingSite($id){
         $student = student::where("id", $id)->first();
         $errorInfos = $this->ErrorInfoTaker($id);
+        return $errorInfos;
         $data = array(
             "errorInfos" => $errorInfos,
             "student" => $student
@@ -119,7 +120,7 @@ class studentsController extends Controller
             ->join("assign_documents", "assign_student_documents.assign_document_id", "=", "assign_documents.id")
             ->join("defines", "assign_documents.define_id", "=", "defines.id")
             ->join("documents", "assign_documents.document_id", "=", "documents.id")
-            ->select("assign_student_documents.value", "documents.document_name", "defines.name", "defines.id")
+            ->select("assign_student_documents.value", "documents.document_name", "documents.id as document_id", "defines.name", "defines.id")
             ->get();
         
         $studentAssigns = assign::where("student_id", $studentID)
@@ -168,9 +169,21 @@ class studentsController extends Controller
         
         // Take all documents
         $documents = document::all();
+        
+        // Take all error
+        $errorInfos = $this->ErrorInfoTaker($id);
+        $errorCounts = array();
+        foreach($documents as $document){
+            $errorCounts[$document->id] = 0;
+        }
+
+        foreach($errorInfos as $errorInfo){
+            $errorCounts[$errorInfo->document_id]++;
+        }
 
         $data = array("student" => $student, 
-            "assignments"=> $assignments, 
+            "assignments"=> $assignments,
+            "errorCounts"=> $errorCounts, 
             "documents" => $documents);
         return $data;
     }
