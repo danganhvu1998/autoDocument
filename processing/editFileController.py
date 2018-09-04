@@ -5,16 +5,26 @@ import re
 folderName = ""
 files = []
 students = {}
+translates = {}
+translates[""] = "[[[XXX- NO TRANSLATION FOUND -XXX]]]"
 
 #Both docx and xlsx
 def autoLine(paraText):
-    global students
+    global students, translates
+    # JAPANESE
+    paraForms = re.findall(r"\[\[\[([a-zA-Z0-9_\.\-]+)\.nihon\]\]\]", paraText)
+    for paraForm in paraForms:
+        form = "[[["+paraForm+".nihon]]]"
+        #data = students.get(paraForm, "")
+        data = translates[students.get(paraForm, "")]
+        print(1, paraForm, form, data)
+        paraText = paraText.replace(form, data)
+
+    # VIETNAMESE
     paraForms = re.findall(r"\[\[\[([a-zA-Z0-9_\.\-]+)\]\]\]", paraText)
-    #print(paraText, paraForms)
     for paraForm in paraForms:
         form = "[[["+paraForm+"]]]"
         data = students.get(paraForm, "")
-        #print(form, data)
         paraText = paraText.replace(form, data)
     return paraText
 
@@ -100,14 +110,17 @@ def autoDocument(file):
     else:
         return xlsxAutoDocument(file)
 
-def MAIN(clientFolderName, clientFiles, clientStudents):
+def MAIN(clientFolderName, clientFiles, clientStudents, clientTranslates):
     #PRERUN ASSIGN VALUE
-    global folderName, files, students
+    global folderName, files, students, translates
     folderName = clientFolderName
     files = clientFiles
     for clientStudent in clientStudents:
         students[clientStudent[1]] = clientStudent[0]
         if( clientStudent[2] != None  ): students[clientStudent[2]] = clientStudent[0]
+    
+    for clientTranslate in clientTranslates:
+        translates[clientTranslate[0]] = clientTranslate[1]
     
     #AUTO DOCUMENT
     for file in files:

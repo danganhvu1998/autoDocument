@@ -8,6 +8,7 @@ clientRequest = mysqlCtrl.MAIN()
 students = clientRequest["students"]
 groupFiles = clientRequest["groupFiles"]
 requests = clientRequest["requests"]
+translates = clientRequest["translates"]
 
 def prepareFile(folderName, files):
     try:
@@ -50,7 +51,7 @@ def requestProcessor(request):
 
     #PROCESS
     if(not prepareFile(folderName, files)): return "Error: Cannot copy files"
-    editFileCtrl.MAIN(folderName, files, students[request[1]])
+    editFileCtrl.MAIN(folderName, files, students[request[1]], translates)
     if(not compress(folderName)):           return "Error: Cannot compress file"
     if(not moveCompressedFile(folderName)):  return "Error: Cannot move compressed file"
     if(not remove(folderName)):        return "Error: Cannot remove folder"

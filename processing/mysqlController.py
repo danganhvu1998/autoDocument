@@ -43,6 +43,13 @@ def groupFileInfoTaker(mydb, id):
     mycursor.execute(cmd)
     return mycursor.fetchall()
 
+def translateInfoTaker(mydb):
+    cmd = """SELECT vietnamese, japanese 
+        FROM translates"""
+    mycursor = mydb.cursor()
+    mycursor.execute(cmd)
+    return mycursor.fetchall()
+
 def MAIN():
     result = {}
     result["students"] = {}
@@ -58,6 +65,7 @@ def MAIN():
     )
     # Take request info
     result["requests"] = requestTaker(mydb)
+    result["translates"] = translateInfoTaker(mydb)
 
     # Take student info
     for request in result["requests"]:
@@ -82,7 +90,6 @@ def updateResult(id, result):
         database = response["loginInfo"][3]
     )
     cmd = ("UPDATE request_auto_documents SET status = %d WHERE id = %d" % (result, id))
-    print(cmd, type(cmd))
     mycursor = mydb.cursor()
     mycursor.execute(cmd)
     mydb.commit()
