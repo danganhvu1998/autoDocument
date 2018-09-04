@@ -38,3 +38,5 @@ Tue Sep  4 11:52:45 2018 request_id: 14, student_id: 1, group_file_id: 4, studen
 Tue Sep  4 11:59:30 2018 request_id: 15, student_id: 1, group_file_id: 4, student_name: Đặng Anh Vũ, group_file_name: Teikyo University, Result: Success!
 Tue Sep  4 12:00:54 2018 request_id: 16, student_id: 1, group_file_id: 3, student_name: Đặng Anh Vũ, group_file_name: Toyo University, Result: Success!
 Tue Sep  4 12:00:54 2018 request_id: 17, student_id: 1, group_file_id: 4, student_name: Đặng Anh Vũ, group_file_name: Teikyo University, Result: Success!
+Tue Sep  4 12:02:46 2018 request_id: 18, student_id: 1, group_file_id: 4, student_name: Đặng Anh Vũ, group_file_name: Teikyo University, Result: Success!
+Tue Sep  4 12:03:53 2018 request_id: 19, student_id: 1, group_file_id: 4, student_name: Đặng Anh Vũ, group_file_name: Teikyo University, Result: Success!

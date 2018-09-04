@@ -16,7 +16,7 @@ def autoLine(paraText):
     for paraForm in paraForms:
         form = "[[["+paraForm+".nihon]]]"
         #data = students.get(paraForm, "")
-        data = translates[students.get(paraForm, "")]
+        data = translates[students.get(paraForm, "").lower()]
         print(1, paraForm, form, data)
         paraText = paraText.replace(form, data)
 
@@ -120,7 +120,7 @@ def MAIN(clientFolderName, clientFiles, clientStudents, clientTranslates):
         if( clientStudent[2] != None  ): students[clientStudent[2]] = clientStudent[0]
     
     for clientTranslate in clientTranslates:
-        translates[clientTranslate[0]] = clientTranslate[1]
+        translates[clientTranslate[0].lower()] = clientTranslate[1]
     
     #AUTO DOCUMENT
     for file in files:
