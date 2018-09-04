@@ -133,6 +133,16 @@ Route::get('/groupFiles/view/{id}', "groupFilesController@groupFilesViewingSite"
 
 Route::get('/groupFiles/delete/{id}', "groupFilesController@groupFilesDeleting");
 
+// End Group Files Controller
+//
+//
+//
+//
+// Translations Controll
+Route::get('/translations/{id}', "translationsController@translationsSettingSite");
+
+Route::post('/translations', "translationsController@translationsSetting");
+
 // Auth
 Auth::routes();
 
