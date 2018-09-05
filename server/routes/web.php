@@ -143,6 +143,20 @@ Route::get('/translations/{id}', "translationsController@translationsSettingSite
 
 Route::post('/translations', "translationsController@translationsSetting");
 
+// End Translations Controller
+//
+//
+//
+//
+// Employees Controll
+Route::get('/employees', "employeesController@employeesSettingSite");
+
+Route::post('/employees/add', "employeesController@employeesAdding");
+
+Route::get('/employees/view/{id}', "employeesController@employeesViewingSite");
+
+Route::post('/employees/edit', "employeesController@employeesEdit");
+
 // Auth
 Auth::routes();
 
