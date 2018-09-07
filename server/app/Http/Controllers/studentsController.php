@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\define;
@@ -15,17 +16,24 @@ use App\assignStudentDocument;
 use App\studentNote;
 use App\requestAutoDocument;
 use App\groupFile;
+use App\studentControlList;
 
 class studentsController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'studentAccess'])->except(['studentsShowingSite', 'studentsAddingSite', 'studentsAdding']);
     }
 
     // Student Setting
     public function studentsShowingSite(){
-        $students = student::all();
+        if(Auth::user()->level>=99) $students = student::all();
+        else{
+            $students = studentControlList::where("user_id", Auth::user()->id)
+                ->join("students", "student_control_lists.student_id", "=", "students.id")
+                ->select("students.*")
+                ->get();
+        }
         return view("students.setting")->with("students", $students);
     }
 
@@ -41,7 +49,7 @@ class studentsController extends Controller
         $student->note = $request->note;
         if(!isset($student->name)) return redirect("/students/add");
         if( $student->save() ){
-            $studentID = student::orderBy('updated_at','desc')
+            $studentID = student::orderBy('created_at','desc')
                 ->select("id")
                 ->first()
                 ->id;
@@ -54,6 +62,10 @@ class studentsController extends Controller
                 $assignment->value = $request->$value;
                 $assignment->save();
             }
+            $employeeStudent = new studentControlList;
+            $employeeStudent->user_id = Auth::user()->id;
+            $employeeStudent->student_id = $studentID;
+            $employeeStudent->save();
             return redirect("/students");
         }
         return "Error";

@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'checkLevel' => \App\Http\Middleware\deleteCheckLevel::class,
         'checkLevel2' => \App\Http\Middleware\translateCheckLevel::class,
+        'studentAccess' => \App\Http\Middleware\studentUserAccessRight::class,
     ];
 }
