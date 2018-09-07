@@ -10,7 +10,7 @@ class translationsController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'checkLevel2']);
     }
 
     public function translationsSettingSite($id){

@@ -22,7 +22,7 @@ Route::get('/students/add', "studentsController@studentsAddingSite");
 
 Route::post('/students/add', "studentsController@studentsAdding");
 
-Route::get('/students/delete/{id}', "studentsController@studentsDeleting");
+#Route::get('/students/delete/{id}', "studentsController@studentsDeleting");
 
 Route::get('/students/view/{id}', "studentsController@studentsViewingSite");
 
@@ -69,15 +69,15 @@ Route::get('/definitions/add', "definitionsController@definitionsAddingSite");
 
 Route::post('/definitions/add', "definitionsController@definitionsAdding");
 
-Route::get('/definitions/delete/{id}', "definitionsController@definitionsDeleting");
+Route::get('/definitions/delete/{id}', "definitionsController@definitionsDeleting")->middleware('checkLevel');
 
-Route::get('/definitions/edit/{id}', "definitionsController@definitionsEditingSite");
+Route::get('/definitions/edit/{id}', "definitionsController@definitionsEditingSite")->middleware('checkLevel');
 
-Route::post('/definitions/edit', "definitionsController@definitionsEditing");
+Route::post('/definitions/edit', "definitionsController@definitionsEditing")->middleware('checkLevel');
 
-Route::get('definitions/changePos/up/{position}', "definitionsController@definitionsChangePositionUp");
+Route::get('definitions/changePos/up/{position}', "definitionsController@definitionsChangePositionUp")->middleware('checkLevel');;
 
-Route::get('definitions/changePos/down/{position}', 'definitionsController@definitionsChangePositionDown');
+Route::get('definitions/changePos/down/{position}', 'definitionsController@definitionsChangePositionDown')->middleware('checkLevel');;
 
 Route::get('definitions/changePos/reset', 'definitionsController@definitionsResetPosition');
 

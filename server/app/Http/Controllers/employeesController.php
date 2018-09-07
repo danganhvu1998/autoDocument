@@ -13,7 +13,7 @@ class employeesController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'checkLevel']);
     }
     //
     public function userLevelCheck(){
@@ -22,19 +22,16 @@ class employeesController extends Controller
     }
     
     public function employeesSettingSite(){
-        if(!$this->userLevelCheck()) return redirect("/home");
         $users = User::all();
         return view("employees.setting")->with("users", $users);
     }
 
     public function employeesDeleting($employee_id){
-        if(!$this->userLevelCheck()) return redirect("/home");
         if($employee_id!=1) user::where("id", $employee_id)->delete();
         return redirect("/employees");
     }
 
     public function employeesAdding(request $request){
-        if(!$this->userLevelCheck()) return redirect("/home");
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -45,7 +42,6 @@ class employeesController extends Controller
     }
 
     public function employeesViewingSite($employee_id){
-        if(!$this->userLevelCheck()) return redirect("/home");
         $user = User::where("id", $employee_id)->first();
         $students = $this->employeesStudentsList($employee_id);
         $data = array(
@@ -56,7 +52,6 @@ class employeesController extends Controller
     }
 
     public function employeesEdit(request $request){
-        if(!$this->userLevelCheck()) return redirect("/home");
         if(Auth::user()->level <= $request->level) {
             return redirect("/employees/view/".$request->employee_id);
         }
@@ -74,7 +69,6 @@ class employeesController extends Controller
     }
 
     public function employeesAddStudent(Request $request){
-        if(!$this->userLevelCheck()) return redirect("/home");
         if(student::where("id",$request->student_id)->first() == null){
             return redirect("/employees/view/".$request->employee_id);
         }
@@ -88,7 +82,6 @@ class employeesController extends Controller
     }
 
     public function employeesRmStudent($employee_id, $student_id){
-        if(!$this->userLevelCheck()) return redirect("/home");
         studentControlList::where("user_id", $employee_id)
             ->where("student_id", $student_id)
             ->delete();
@@ -96,7 +89,6 @@ class employeesController extends Controller
     }
 
     public function employeesStudentsList($employee_id){
-        if(!$this->userLevelCheck()) return redirect("/home");
         $students = studentControlList::where("user_id", $employee_id)
             ->orderBy("student_control_lists.id", "desc")
             ->join("students", "student_control_lists.student_id", "=", "students.id")

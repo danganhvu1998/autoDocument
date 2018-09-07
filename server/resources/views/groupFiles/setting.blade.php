@@ -21,8 +21,10 @@
                 {{$groupFile->note}}
             </div>
             <div class="col-md-2 text-center">
-                <a href="groupFiles/edit/{{$groupFile->id}}" class="btn btn-primary">Edit</a>
-                <a href="groupFiles/delete/{{$groupFile->id}}" class="btn btn-danger">Delete</a>
+                @if (Auth::user()->level >= 99)
+                    <a href="groupFiles/edit/{{$groupFile->id}}" class="btn btn-primary">Edit</a>
+                    <a href="groupFiles/delete/{{$groupFile->id}}" class="btn btn-danger">Delete</a>
+                @endif
             </div>
         </div>
         <hr>

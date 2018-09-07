@@ -11,7 +11,7 @@ class documentsController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'checkLevel']);
     }
     // Setting - List all
     public function documentsSettingSite(){
