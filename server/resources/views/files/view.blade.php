@@ -16,12 +16,12 @@
 	@foreach($files as $file)
 	<div class="row">
 	    <div class="col-md-4">
-		<a href='http://localhost:8000/storage/file/{{$file->file_url}}'>
+		<a href='http:/kyatod.science:8000/storage/file/{{$file->file_url}}'>
 		    {{$file->file_url}}
 				</a>
 			</div>
 			<div class="col-md-7">
-				http://localhost:8000/storage/file/{{$file->file_url}}
+				http:/kyatod.science:8000/storage/file/{{$file->file_url}}
 			</div>
 			<div class="col-md-1">
 				@if (Auth::user()->level >= 99)
