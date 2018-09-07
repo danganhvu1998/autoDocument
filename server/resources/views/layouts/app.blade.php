@@ -69,7 +69,7 @@
                                         All Files
                                     </a>
                                     <a class="dropdown-item" href="/groupFiles">
-                                        All Groups of File
+                                        All Group File
                                     </a>
                                 </div>
                             </li>
