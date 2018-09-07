@@ -157,6 +157,10 @@ Route::get('/employees/view/{id}', "employeesController@employeesViewingSite");
 
 Route::post('/employees/edit', "employeesController@employeesEdit");
 
+Route::post('/employees/addStudent', "employeesController@employeesAddStudent");
+
+Route::get('/employees/rmStudent/{employee_id}/{student_id}', "employeesController@employeesRmStudent");
+
 // Auth
 Auth::routes();
 

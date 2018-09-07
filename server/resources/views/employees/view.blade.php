@@ -24,6 +24,31 @@
             {!! Form::close() !!}
         </div>
     </div>
-    
     <hr>
+    <!--Students List-->
+    <h2>Students List</h2>
+    @foreach ($students as $student)
+        <div class="row">
+            <div class="col-md-3 text-center">
+                {{$student->name}}
+            </div>
+            <div class="col-md-6 text-center">
+                {{$student->note}}
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="btn-group">
+                    <a class="btn btn-success" href="/students/check/{{$student->student_id}}">Check</a>
+                    <a class="btn btn-danger" href="/employees/rmStudent/{{$student->user_id}}/{{$student->student_id}}">Remove</a>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {!! Form::open(['action' => 'employeesController@employeesAddStudent', 'method' => 'POST']) !!}
+        {{Form::hidden("employee_id", $user->id, ['class'=>'form-control'])}}
+        <div class="form-group">
+            {{Form::label('title', "Add student to employee")}}
+            {{Form::number("student_id", "", ['class'=>'form-control', 'placeholder' => "Student ID"])}}
+        </div>
+        {{Form::submit('Add', ['class' => 'btn btn-primary'])}}
+    {!! Form::close() !!}
 @endsection

@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\studentControlList;
+use App\student;
 
 class employeesController extends Controller
 {   
@@ -46,13 +47,16 @@ class employeesController extends Controller
     public function employeesViewingSite($employee_id){
         if(!$this->userLevelCheck()) return redirect("/home");
         $user = User::where("id", $employee_id)->first();
+        $students = $this->employeesStudentsList($employee_id);
         $data = array(
-            "user" => $user
+            "user" => $user,
+            "students" => $students
         );
         return view("employees.view")->with($data);
     }
 
     public function employeesEdit(request $request){
+        if(!$this->userLevelCheck()) return redirect("/home");
         if(Auth::user()->level <= $request->level) {
             return redirect("/employees/view/".$request->employee_id);
         }
@@ -66,7 +70,37 @@ class employeesController extends Controller
             ->update([
                 "level" => $request->level
             ]);
+        return redirect("/employees/view/".$request->employee_id);        
+    }
+
+    public function employeesAddStudent(Request $request){
+        if(!$this->userLevelCheck()) return redirect("/home");
+        if(student::where("id",$request->student_id)->first() == null){
+            return redirect("/employees/view/".$request->employee_id);
+        }
+        $this->employeesRmStudent($request->employee_id, $request->student_id);
+        $employeeStudent = new studentControlList;
+        $employeeStudent->user_id = $request->employee_id;
+        $employeeStudent->student_id = $request->student_id;
+        $employeeStudent->save();
         return redirect("/employees/view/".$request->employee_id);
         
+    }
+
+    public function employeesRmStudent($employee_id, $student_id){
+        if(!$this->userLevelCheck()) return redirect("/home");
+        studentControlList::where("user_id", $employee_id)
+            ->where("student_id", $student_id)
+            ->delete();
+        return redirect("/employees/view/".$employee_id);
+    }
+
+    public function employeesStudentsList($employee_id){
+        if(!$this->userLevelCheck()) return redirect("/home");
+        $students = studentControlList::where("user_id", $employee_id)
+            ->orderBy("student_control_lists.id", "desc")
+            ->join("students", "student_control_lists.student_id", "=", "students.id")
+            ->get();
+        return $students;
     }
 }
