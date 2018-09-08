@@ -30,10 +30,13 @@
     <h2>Students List</h2>
     @foreach ($students as $student)
         <div class="row">
-            <div class="col-md-3 text-center">
-                {{$student->name}}
+            <div class="col-md-1 text-center">
+                {{$student->id}}
             </div>
-            <div class="col-md-6 text-center">
+            <div class="col-md-3 text-center">
+                <a href="/students/view/{{$student->id}}">{{$student->name}}</a>
+            </div>
+            <div class="col-md-5 text-center">
                 {{$student->note}}
             </div>
             <div class="col-md-3 text-center">
