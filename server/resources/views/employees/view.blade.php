@@ -11,6 +11,7 @@
                 <div class="col-md-12"> Email: </div>
                 <div class="col-md-12"> <strong>{{$user->email}}</strong> </div>
                 <hr>
+                <div class="col-md-12"> <a class="btn btn-danger" href="/employees/delete/{{$user->id}}">DELETE THIS EMPLOYEE</a></div>
             </div>
         </div>
         <div class="col-md-4">

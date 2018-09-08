@@ -161,6 +161,8 @@ Route::post('/employees/addStudent', "employeesController@employeesAddStudent");
 
 Route::get('/employees/rmStudent/{employee_id}/{student_id}', "employeesController@employeesRmStudent");
 
+Route::get('/employees/delete/{employee_id}', "employeesController@employeesDeleting");
+
 // Auth
 Auth::routes();
 

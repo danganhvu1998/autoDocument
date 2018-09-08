@@ -32,12 +32,14 @@ class employeesController extends Controller
     }
 
     public function employeesAdding(request $request){
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->level = 1;
-        $user->save();
+        if(isset($request->name) and isset($request->email) and isset($request->password)){
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->level = 1;
+            $user->save();
+        }
         return redirect("/employees");
     }
 
