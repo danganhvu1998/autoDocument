@@ -36,7 +36,8 @@ class RegisterController extends Controller
      * @return void
      */
     public function __construct()
-    {
+    {   
+        return redirect("/login");
         $this->middleware('guest');
     }
 
@@ -62,7 +63,8 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
+    {   
+        return redirect("/login");
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
