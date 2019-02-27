@@ -28,7 +28,7 @@ class employeesController extends Controller
 
     public function employeesDeleting($employee_id){
         if($employee_id!=1) user::where("id", $employee_id)->delete();
-        studentControlList::where("employee_id", $employee_id)->delete();
+        studentControlList::where("user_id", $employee_id)->delete();
         return redirect("/employees");
     }
 
