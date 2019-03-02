@@ -51,7 +51,7 @@
     <strong class="text-danger"><h1>!!! >>AUTO DOCUMENT<< !!!</h1></strong>
     <h2>Phôi là gì?</h2>
     <ul>
-        <li>Đây là 1 file phôi. <a href="http://kyatod.science:8000/storage/file/translate_Test.docx ">download</a></li>
+        <li>Đây là 1 file phôi. <a href="/storage/file/translate_Test.docx ">download</a></li>
         <li>Đây là trang lưu thông tin để tạo ra file phôi <a href="/definitions">click here</a></li>
         <li>File phôi là nơi hệ thống sẽ điền thông tin của học sinh và những vị trí có định dạng [[[definition]]], và điền bản dịch của thông tin(nếu có) vào [[[definition.nihon]]]</li>
         <li>Nhiều phôi sẽ tạo nên 1 bộ phôi, được đăng ký ở All Group Files</li>        
