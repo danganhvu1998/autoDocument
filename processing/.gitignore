@@ -2,3 +2,5 @@
 temp/*
 *.txt
 __pycache__/*
+log.txt
+__pycache__
