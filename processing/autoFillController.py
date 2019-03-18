@@ -79,7 +79,7 @@ def functionCaller(data, require):
     return data
 
 def autoForm(data, requires): #paraFrom is like name.first.english.capital
-    print(data, requires)
+    #print(data, requires)
     for require in requires:
         savedData = data
         try:

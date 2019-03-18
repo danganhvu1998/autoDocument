@@ -1,7 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1><strong>{{$student->name}}</strong> Request Auto Document</h1>
+    @if ($errorCount)
+        <h1>
+            <a href="/students/check/{{$student->id}}" class="text-danger">
+                <strong>{{$student->name}}</strong> 
+                Request Auto Document 
+                ({{$errorCount}} errors)
+            </a>
+        </h1>    
+    @else
+        <h1 class="text-success">
+            <strong>{{$student->name}}</strong> 
+            Request Auto Document 
+            ({{$errorCount}} errors)
+        </h1>    
+    @endif
     @foreach ($requests as $request)
         <hr>
         <div class="row">

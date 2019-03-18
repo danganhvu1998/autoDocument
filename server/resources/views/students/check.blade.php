@@ -29,6 +29,12 @@
             </div>
             <hr>
         @endforeach
+        <br><br><br><br><br><br>
+        <div class="text-center">
+            <a href="/students/request/{{$student->id}}" class="btn btn-lg btn-danger">
+                JUST IGNORE AND GO TO REQUEST SITE
+            </a>
+        </div>
     @else
         <br><br><br><br><br><br>
         <div class="text-center">

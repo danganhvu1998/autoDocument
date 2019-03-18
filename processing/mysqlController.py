@@ -14,7 +14,7 @@ def loginInfoTaker():
     return result
 
 def requestTaker(mydb):
-    cmd = """SELECT request_auto_documents.id, request_auto_documents.student_id, request_auto_documents.group_file_id, students.name, group_files.name 
+    cmd = """SELECT request_auto_documents.id, request_auto_documents.student_id, request_auto_documents.group_file_id, students.name, group_files.name, request_auto_documents.errors 
         FROM request_auto_documents  
         INNER JOIN students 
             ON request_auto_documents.student_id=students.id 
