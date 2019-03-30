@@ -1,6 +1,7 @@
 import openpyxl
 import docx
 import re
+import autoFillController
 
 folderName = ""
 files = []
@@ -11,7 +12,7 @@ translates[""] = "[[[XXX- NO TRANSLATION FOUND -XXX]]]"
 #Both docx and xlsx
 def autoLine(paraText):
     global students, translates
-    # JAPANESE
+    # JAPANESE - NEED TRANSLATION
     paraForms = re.findall(r"\[\[\[([a-zA-Z0-9_\.\-]+)\.nihon\]\]\]", paraText)
     for paraForm in paraForms:
         form = "[[["+paraForm+".nihon]]]"
@@ -20,11 +21,14 @@ def autoLine(paraText):
         print(1, paraForm, form, data)
         paraText = paraText.replace(form, data)
 
-    # VIETNAMESE
+    # MIGHT HAVE SOME ADDITIONAL CONDITION
     paraForms = re.findall(r"\[\[\[([a-zA-Z0-9_\.\-]+)\]\]\]", paraText)
-    for paraForm in paraForms:
+    for paraForm in paraForms: #paraFrom is like name.first.english.capital
         form = "[[["+paraForm+"]]]"
-        data = students.get(paraForm, "")
+        elements = paraForm.split(".")
+        rawData = students.get(elements[0], "")
+        elements = elements[1::]
+        data = autoFillController.autoForm(rawData, elements)
         paraText = paraText.replace(form, data)
     return paraText
 

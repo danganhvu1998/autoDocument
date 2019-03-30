@@ -1,7 +1,7 @@
 import os
 import time
 
-def filesPrepare(folderName, files):
+def filesPrepare(folderName, files, errors):
     path = "../server/public/storage/file/"
     folderPath = "temp/"+folderName+"/"
     # Create Folder
@@ -12,6 +12,12 @@ def filesPrepare(folderName, files):
         toUrl = folderPath
         cmd = "cp '"+fromUrl+"' '"+toUrl+"'"
         os.system(cmd)
+    # Add errors file
+    errors = errors.strip()
+    if(len(errors)):
+        fhand = open(folderPath+"errorsLog.txt", "w")
+        fhand.write(errors)
+        fhand.close()
     return 1
 
 def makeCompress(folderName):

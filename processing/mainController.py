@@ -10,9 +10,9 @@ groupFiles = clientRequest["groupFiles"]
 requests = clientRequest["requests"]
 translates = clientRequest["translates"]
 
-def prepareFile(folderName, files):
+def prepareFile(folderName, files, errors=""):
     try:
-        filesCtrl.filesPrepare(folderName, files)
+        filesCtrl.filesPrepare(folderName, files, errors)
         return 1
     except:
         return 0
@@ -50,7 +50,7 @@ def requestProcessor(request):
     folderName = (request[4]+"___"+request[3]).replace(" ", "_")
 
     #PROCESS
-    if(not prepareFile(folderName, files)): return "Error: Cannot copy files"
+    if(not prepareFile(folderName, files, request[5])): return "Error: Cannot copy files"
     editFileCtrl.MAIN(folderName, files, students[request[1]], translates)
     if(not compress(folderName)):           return "Error: Cannot compress file"
     if(not moveCompressedFile(folderName)):  return "Error: Cannot move compressed file"
@@ -58,23 +58,32 @@ def requestProcessor(request):
     return "Success!"
     
 
-#AUTODOCUMENT + LOG
-for request in requests:
-    requestLog = ctime() + " request_id: "+str(request[0])+", "
-    requestLog += "student_id: "+str(request[1])+", "
-    requestLog += "group_file_id: "+str(request[2])+", "
-    requestLog += "student_name: "+str(request[3])+", "
-    requestLog += "group_file_name: "+str(request[4])+", Result: "
-    result = requestLog + requestProcessor(request)
-    logFile = open("log.txt", "a")
-    logFile.write(result+"\n")
-    logFile.close()
-    filesCtrl.cleaner()
-    #UPDATE DATABASE
-    if(result.endswith("Result: Success!")):
-        mysqlCtrl.updateResult(request[0], 1) #SUCCESS
-    else:
-        mysqlCtrl.updateResult(request[0], -1) #ERROR
+def __MAIN__():
+    #AUTODOCUMENT + LOG
+    global students, translates, groupFiles, requests
+    print("STUDENT:", students)
+    print("GROUP FILE:", groupFiles)
+    print("REQUEST:", requests)
+    #return 0
+    for request in requests:
+        requestLog = ctime() + " request_id: "+str(request[0])+", "
+        requestLog += "student_id: "+str(request[1])+", "
+        requestLog += "group_file_id: "+str(request[2])+", "
+        requestLog += "student_name: "+str(request[3])+", "
+        requestLog += "group_file_name: "+str(request[4])+", Result: "
+        result = requestLog + requestProcessor(request)
+        logFile = open("log.txt", "a")
+        logFile.write(result+"\n")
+        logFile.close()
+        filesCtrl.cleaner()
+        #UPDATE DATABASE
+        if(result.endswith("Result: Success!")):
+            mysqlCtrl.updateResult(request[0], 1) #SUCCESS
+        else:
+            mysqlCtrl.updateResult(request[0], -1) #ERROR
 
-#DELETE TOO OLD FILE
-filesCtrl.deleteOldFile()
+    #DELETE TOO OLD FILE
+    filesCtrl.deleteOldFile()
+
+if __name__ == '__main__':
+    __MAIN__()
