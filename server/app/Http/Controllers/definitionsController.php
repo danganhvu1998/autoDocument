@@ -35,6 +35,7 @@ class definitionsController extends Controller
             $define->position = 1000000;
             $define->save();
             $this->definitionsResetPosition();
+            return redirect("/definitions");
         }  
         return "Error, something wrong. Not saved!";
     }
