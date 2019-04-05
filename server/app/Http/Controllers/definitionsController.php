@@ -32,10 +32,9 @@ class definitionsController extends Controller
             $define->name = $request->name;
             $define->define1 = $request->define1;
             $define->define2 = $request->define2;
-            if( $define->save() ) {
-                $this->definitionsFullfillPosition();
-                return redirect("/definitions");
-            }
+            $define->position = 1000000;
+            $define->save();
+            $this->definitionsResetPosition();
         }  
         return "Error, something wrong. Not saved!";
     }
@@ -112,6 +111,38 @@ class definitionsController extends Controller
         return redirect("/definitions");
     }
 
+    public function definitionsChangePosition(request $request){
+        $definitonCount = define::count();
+        $curr = $request->currentPosition;
+        $newP = $request->newPosition;
+        $randNumber = 123852987;
+        if($newP<1){
+            $newP = 1;
+        } else if($newP>$definitonCount){
+            $newP = $definitonCount;
+        }
+        define::where("position", $curr)
+            ->update([
+                'position' => $randNumber
+            ]);
+        if($curr>$newP){
+            define::where("position", "<", $curr)
+                ->where("position", ">=", $newP)
+                ->increment('position');
+        } else if($curr<$newP){
+            define::where("position", ">", $curr)
+                ->where("position", "<=", $newP)
+                ->decrement('position');
+        }
+        define::where("position", $randNumber)
+            ->update([
+                'position' => $newP
+            ]);
+        $this->definitionsResetPosition();
+        return redirect("/definitions");
+        return $request;
+    }
+
     public function definitionsFullfillPosition(){
         $defines = define::whereNull('position')->get();
         foreach($defines as $define){
@@ -125,15 +156,19 @@ class definitionsController extends Controller
     }
 
     public function definitionsResetPosition(){
-        $defines = define::all();
+        $defines = define::orderBy("position")->get();
+        $curr = 0;
         foreach($defines as $define){
-            define::where('id', $define->id)
-            ->update([
-                'position' => $define->id
-            ]);
+            $curr = $curr+1;
+            if($define->position!=$curr){
+                define::where('id', $define->id)
+                ->update([
+                    'position' => $curr
+                ]);
+            }
         }
         
-        return $defines;
+        return $curr;
     }
 
 }

@@ -81,6 +81,8 @@ Route::get('definitions/changePos/down/{position}', 'definitionsController@defin
 
 Route::get('definitions/changePos/reset', 'definitionsController@definitionsResetPosition');
 
+Route::post('definitions/changePos', 'definitionsController@definitionsChangePosition');
+
 // End Definitions Controller
 //
 //
