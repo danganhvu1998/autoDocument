@@ -9,6 +9,30 @@ students = {}
 translates = {}
 translates[""] = "[[[XXX- NO TRANSLATION FOUND -XXX]]]"
 
+def leveledAutoLine(level, paraText):
+    levelStr = str(level)
+    ######################################################
+    formStart = "["+levelStr+"["
+    reFormStart = "\["+levelStr+"\["
+        
+    ######################################################
+    formEnd = "]"+levelStr+"]"
+    reFormEnd = "\]"+levelStr+"\]"
+    ######################################################
+
+    reForm = reFormStart + r"([a-zA-Z0-9_\.\-/\(\)\+\*]+)" + reFormEnd
+    paraForms = re.findall(reForm, paraText)
+    ######################################################
+
+    for paraForm in paraForms: #paraFrom is like name.first.english.capital
+        form = formStart+paraForm+formEnd
+        elements = paraForm.split(".")
+        rawData = elements[0]
+        elements = elements[1::]
+        data = autoFillController.autoForm(rawData, elements)
+        paraText = paraText.replace(form, data)
+    return paraText
+
 #Both docx and xlsx
 def autoLine(paraText):
     global students, translates
@@ -30,6 +54,9 @@ def autoLine(paraText):
         elements = elements[1::]
         data = autoFillController.autoForm(rawData, elements)
         paraText = paraText.replace(form, data)
+    
+    for i in range(1, 3):
+        paraText = leveledAutoLine(i, paraText)
     return paraText
 
 #DOCX
@@ -130,4 +157,14 @@ def MAIN(clientFolderName, clientFiles, clientStudents, clientTranslates):
     for file in files:
         autoDocument(file)
 
+if __name__ == '__main__':
+    testString = """
+        test test test test test
+        [2[([1[16/5/2018-15/6/2019.busday]1]-5)/[1[16/5/2018-15/6/2019.busday]1]*100.calculate.round]2]%
+        [2[([1[16/5/2018-15/6/2019.busday]1]-5)/[1[16/5/2018-15/6/2019.busday]1]*100.calculate.round1]2]%
+        test
+        test
+        test test test
+    """
+    print(autoLine(testString))
 #cd temp/Toyo_University___Đặng_Anh_Vũ/ && mv table.docx table.zip && 

@@ -1,3 +1,6 @@
+import re
+import numpy as np
+
 def textCapital(data):
     return data.upper()
 
@@ -46,6 +49,32 @@ def textDay(data):
         spliter = "-"
     return data.split(spliter)[0]
 
+#####################################################
+
+def dateFormatConverter(date):
+    if("/" in date):
+        spliter = "/"
+    else:
+        spliter = "-"
+    dayMonthYearDate = date.split(spliter)
+    if(len(dayMonthYearDate[1])==1): dayMonthYearDate[1] = "0"+dayMonthYearDate[1]
+    if(len(dayMonthYearDate[0])==1): dayMonthYearDate[0] = "0"+dayMonthYearDate[0]
+    yearMonthDayDate = dayMonthYearDate[2]+"-"+dayMonthYearDate[1]+"-"+dayMonthYearDate[0]
+    return yearMonthDayDate
+
+def businessDayCount(data):
+    dayOffs = ['2017-01-02', '2017-01-26', '2017-01-27', '2017-01-30', '2017-01-31', '2017-02-01', '2017-04-06', '2017-05-01', '2017-05-02', '2017-09-04', 
+        '2018-01-01', '2018-02-12', '2018-02-13', '2018-02-14', '2018-02-15', '2018-02-16', '2018-02-19', '2018-02-20', '2018-04-25', '2018-04-30', 
+        '2018-05-01', '2018-09-03', '2019-01-01', '2019-02-04', '2019-02-05', '2019-02-06', '2019-02-07', '2019-02-08', '2019-04-15', 
+        '2019-04-30', '2019-05-01', '2019-09-02']
+    dataParameters = data.split("-");
+    startDate = dateFormatConverter(dataParameters[0])
+    endDate = dateFormatConverter(dataParameters[1])
+    endDayIsBusDay = np.is_busday([endDate], holidays=dayOffs)[0]
+    workingDayCount = np.busday_count(startDate, endDate, holidays=dayOffs) + endDayIsBusDay
+    return workingDayCount
+    
+#####################################################
 
 def textEnglish(data):
     INTAB = "ạảãàáâậầấẩẫăắằặẳẵóòọõỏôộổỗồốơờớợởỡéèẻẹẽêếềệểễúùụủũưựữửừứíìịỉĩýỳỷỵỹđẠẢÃÀÁÂẬẦẤẨẪĂẮẰẶẲẴÓÒỌÕỎÔỘỔỖỒỐƠỜỚỢỞỠÉÈẺẸẼÊẾỀỆỂỄÚÙỤỦŨƯỰỮỬỪỨÍÌỊỈĨÝỲỶỴỸĐ"
@@ -55,6 +84,21 @@ def textEnglish(data):
         data = data.replace(vText, eText)
     return data
 
+#####################################################
+
+def roundTo0Digit(data):
+    try:
+        float(data)
+        return round(data)
+    except:
+        return(data)
+
+def roundTo1Digit(data):
+    try:
+        float(data)
+        return round(data, 1)
+    except:
+        return(data)
 
 def functionCaller(data, require):
     require = require.lower()
@@ -76,6 +120,14 @@ def functionCaller(data, require):
         return textDay(data)
     elif(require == "english"):
         return textEnglish(data)
+    elif(require == "busday"):
+        return businessDayCount(data)
+    elif(require == "calculate"):
+        return eval(data)
+    elif(require == "round"):
+        return roundTo0Digit(data)
+    elif(require == "round1"):
+        return roundTo1Digit(data)
     return data
 
 def autoForm(data, requires): #paraFrom is like name.first.english.capital
@@ -86,18 +138,18 @@ def autoForm(data, requires): #paraFrom is like name.first.english.capital
             data = functionCaller(data, require)
         except:
             data = savedData
-    return data
+    return str(data)
 
 if __name__ == '__main__':
-    autoForm("Đặng Anh Anh Vũ", ["capital", "mid", "english"])
-    autoForm("Đặng Anh Vũ", ["lower", "family", "english"])
-    autoForm("15/12/1998", ["day"])
-    autoForm("15/12/1998", ["month"])
-    autoForm("15/12/1998", ["year"])
-    textEnglish("da")
+    print(autoForm("18/07/2018-15/3/2019", ["busday"]))
+    print(autoForm("18/07/2018-12/10/2018", ["busday"]))
+    print(autoForm("01/8/2018-14/6/2019", ["busday"]))
+    print(autoForm("01/8/2018-27/2/2019", ["busday"]))
 
 # REQUIRE LIST
 # capital, lower
 # first, mid, family
 # year, day, month
 # english
+# hour_count
+# $$$({{{[[[dayStart]]]-[[[dayEnd]]].busday}}}-[[[absentDayCount]]]){{{[[[dayStart]]]-[[[dayEnd]]].busday}}}*100$$$%
